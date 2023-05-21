@@ -1,0 +1,1 @@
+{"description":"Block \"Åland Islands\" IPs","name":"Blocks outbound requests to \"Åland Islands\" IP ranges","denied-remote-addresses":["217.29.224.0/20"]}

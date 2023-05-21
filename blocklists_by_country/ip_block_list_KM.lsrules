@@ -1,0 +1,1 @@
+{"description":"Block Comoros IPs","name":"Blocks outbound requests to Comoros IP ranges","denied-remote-addresses":["102.223.120.0/22","164.160.136.0/22","197.255.224.0/20"]}

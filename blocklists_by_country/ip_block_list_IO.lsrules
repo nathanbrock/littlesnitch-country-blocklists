@@ -1,0 +1,1 @@
+{"description":"Block \"British Indian Ocean Territory\" IPs","name":"Blocks outbound requests to \"British Indian Ocean Territory\" IP ranges","denied-remote-addresses":["202.44.112.0/22","203.83.48.0/21"]}

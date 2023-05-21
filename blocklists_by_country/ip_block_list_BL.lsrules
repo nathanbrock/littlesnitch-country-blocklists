@@ -1,0 +1,1 @@
+{"description":"Block \"Saint Barthélemy\" IPs","name":"Blocks outbound requests to \"Saint Barthélemy\" IP ranges","denied-remote-addresses":["23.135.232.0/24","149.112.20.0/24","206.83.45.0/24"]}

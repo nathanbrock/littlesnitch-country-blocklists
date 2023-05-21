@@ -1,0 +1,1 @@
+{"description":"Block \"Wallis and Futuna\" IPs","name":"Blocks outbound requests to \"Wallis and Futuna\" IP ranges","denied-remote-addresses":["27.125.192.0/22","103.235.110.0/23","117.20.32.0/21"]}

@@ -1,0 +1,1 @@
+{"description":"Block Tuvalu IPs","name":"Blocks outbound requests to Tuvalu IP ranges","denied-remote-addresses":["202.2.96.0/19"]}

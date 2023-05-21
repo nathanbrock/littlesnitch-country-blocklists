@@ -1,0 +1,1 @@
+{"description":"Block Niue IPs","name":"Blocks outbound requests to Niue IP ranges","denied-remote-addresses":["49.156.48.0/23","49.156.50.0/23","202.59.4.0/22"]}

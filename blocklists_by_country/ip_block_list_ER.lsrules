@@ -1,0 +1,1 @@
+{"description":"Block Eritrea IPs","name":"Blocks outbound requests to Eritrea IP ranges","denied-remote-addresses":["196.200.96.0/20"]}

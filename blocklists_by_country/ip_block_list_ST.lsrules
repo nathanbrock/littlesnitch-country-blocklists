@@ -1,0 +1,1 @@
+{"description":"Block \"São Tomé and Príncipe\" IPs","name":"Blocks outbound requests to \"São Tomé and Príncipe\" IP ranges","denied-remote-addresses":["154.72.12.0/22","197.159.160.0/19"]}
