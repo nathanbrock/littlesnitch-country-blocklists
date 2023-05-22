@@ -2,7 +2,22 @@
 
 A collection of [LittleSnitch](https://www.obdev.at/products/littlesnitch/index.html) rule sets to block outbound connections to a given country. 
 
-## Update block lists from MaxMind
+These lists are not updated regularly and are just for experimentation. If you wish to maintain your own lists, please fork the repo.
+
+## Subscribing to lists
+
+You can subscribe to a block list via the LittleSnitch rules UI by following the steps below.
+
+1. Open the Little Snitch Rules either by opening the application or selecting 'Little Snitch Rules...' from the menu bar icon.
+2. Click the plus symbol found at the bottom left side of the window and select "New Rule Group Subscription...".
+3. From the `./blocklists_by_country` directory, choose the lists you want to subscribe to and view as "raw".
+4. Use the `raw.githubusercontent.com` url as the subscription URL in the Little Snitch UI.
+5. Follow the instructions presented. Note that IP lists can be sizable and can cause LS to slow down for a bit as it loads the blocklist.
+6. After subscribing, make sure to approve all the new rules via the "Unapproved" tab.
+
+## Updating lists
+
+### Update block lists from MaxMind
 
 1. Install [GoLang](https://go.dev/dl/).
 2. Download "GeoLite2 Country" from https://www.maxmind.com/en/accounts/867497/geoip/downloads and unzip.
