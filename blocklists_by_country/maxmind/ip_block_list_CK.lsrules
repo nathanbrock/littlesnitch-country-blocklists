@@ -1,1 +1,1 @@
-{"description":"Block \"Cook Islands\" IPs","name":"Blocks outbound requests to \"Cook Islands\" IP ranges","denied-remote-addresses":["103.186.244.0/23","202.65.32.0/19"]}
+{"description":"Block \"Cook Islands\" IPs (MaxMind GeoLite2)","name":"Blocks requests to \"Cook Islands\" IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["103.186.244.0/23","202.65.32.0/19"]}

@@ -1,1 +1,1 @@
-{"description":"Block Tuvalu IPs","name":"Blocks outbound requests to Tuvalu IP ranges","denied-remote-addresses":["202.2.96.0/19"]}
+{"description":"Block Tuvalu IPs (MaxMind GeoLite2)","name":"Blocks requests to Tuvalu IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["202.2.96.0/19"]}

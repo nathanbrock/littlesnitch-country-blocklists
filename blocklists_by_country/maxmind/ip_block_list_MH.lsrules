@@ -1,1 +1,1 @@
-{"description":"Block \"Marshall Islands\" IPs","name":"Blocks outbound requests to \"Marshall Islands\" IP ranges","denied-remote-addresses":["103.202.148.0/22","117.103.88.0/21","203.78.152.0/22"]}
+{"description":"Block \"Marshall Islands\" IPs (MaxMind GeoLite2)","name":"Blocks requests to \"Marshall Islands\" IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["103.202.148.0/22","117.103.88.0/21","203.78.152.0/22"]}

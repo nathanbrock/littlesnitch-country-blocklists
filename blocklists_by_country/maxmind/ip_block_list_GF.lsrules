@@ -1,1 +1,1 @@
-{"description":"Block \"French Guiana\" IPs","name":"Blocks outbound requests to \"French Guiana\" IP ranges","denied-remote-addresses":["45.169.164.0/22","128.201.88.0/22","161.22.64.0/18","170.233.72.0/22","186.2.244.0/22","200.13.136.0/21"]}
+{"description":"Block \"French Guiana\" IPs (MaxMind GeoLite2)","name":"Blocks requests to \"French Guiana\" IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["45.169.164.0/22","128.201.88.0/22","161.22.64.0/18","170.233.72.0/22","186.2.244.0/22","200.13.136.0/21"]}

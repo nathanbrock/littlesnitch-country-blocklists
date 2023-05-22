@@ -1,1 +1,1 @@
-{"description":"Block Eritrea IPs","name":"Blocks outbound requests to Eritrea IP ranges","denied-remote-addresses":["196.200.96.0/20"]}
+{"description":"Block Eritrea IPs (MaxMind GeoLite2)","name":"Blocks requests to Eritrea IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["196.200.96.0/20"]}

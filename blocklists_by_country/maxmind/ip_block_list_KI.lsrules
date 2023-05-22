@@ -1,1 +1,1 @@
-{"description":"Block Kiribati IPs","name":"Blocks outbound requests to Kiribati IP ranges","denied-remote-addresses":["103.73.80.0/23","103.148.4.0/23","103.250.0.0/22","202.6.120.0/22","202.58.248.0/22"]}
+{"description":"Block Kiribati IPs (MaxMind GeoLite2)","name":"Blocks requests to Kiribati IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["103.73.80.0/23","103.148.4.0/23","103.250.0.0/22","202.6.120.0/22","202.58.248.0/22"]}

@@ -1,1 +1,1 @@
-{"description":"Block Tokelau IPs","name":"Blocks outbound requests to Tokelau IP ranges","denied-remote-addresses":["27.96.24.0/21","194.0.38.0/23","194.0.40.0/23"]}
+{"description":"Block Tokelau IPs (MaxMind GeoLite2)","name":"Blocks requests to Tokelau IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["27.96.24.0/21","194.0.38.0/23","194.0.40.0/23"]}

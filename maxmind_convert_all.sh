@@ -13,8 +13,8 @@ COUNTRY_FILE=$2
         -input_csv "$COUNTRY_FILE" \
         -input_source "maxmind" \
         -countryid "$geoname" \
-        -list_name "Block $name IPs" \
-        -list_desc "Blocks outbound requests to $name IP ranges" \
+        -list_name "Block $name IPs (MaxMind GeoLite2)" \
+        -list_desc "Blocks requests to $name IPs (source: MaxMind GeoLite2)" \
         -output_dir blocklists_by_country/maxmind \
         -output_file "ip_block_list_$countrycode"
   done

@@ -1,1 +1,1 @@
-{"description":"Block Mayotte IPs","name":"Blocks outbound requests to Mayotte IP ranges","denied-remote-addresses":["41.242.116.0/22"]}
+{"description":"Block Mayotte IPs (MaxMind GeoLite2)","name":"Blocks requests to Mayotte IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["41.242.116.0/22"]}

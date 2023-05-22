@@ -1,1 +1,1 @@
-{"description":"Block Djibouti IPs","name":"Blocks outbound requests to Djibouti IP ranges","denied-remote-addresses":["41.189.224.0/19","102.214.90.0/24","196.49.10.0/24","196.201.192.0/20","196.223.38.0/24","197.241.0.0/17"]}
+{"description":"Block Djibouti IPs (MaxMind GeoLite2)","name":"Blocks requests to Djibouti IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["41.189.224.0/19","102.214.90.0/24","196.49.10.0/24","196.201.192.0/20","196.223.38.0/24","197.241.0.0/17"]}

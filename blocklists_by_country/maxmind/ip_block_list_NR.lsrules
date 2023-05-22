@@ -1,1 +1,1 @@
-{"description":"Block Nauru IPs","name":"Blocks outbound requests to Nauru IP ranges","denied-remote-addresses":["43.230.6.0/24","103.20.124.0/24","103.49.173.0/24","103.49.174.0/23","203.98.224.0/19","203.190.216.0/24"]}
+{"description":"Block Nauru IPs (MaxMind GeoLite2)","name":"Blocks requests to Nauru IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["43.230.6.0/24","103.20.124.0/24","103.49.173.0/24","103.49.174.0/23","203.98.224.0/19","203.190.216.0/24"]}

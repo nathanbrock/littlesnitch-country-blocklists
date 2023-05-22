@@ -1,1 +1,1 @@
-{"description":"Block Comoros IPs","name":"Blocks outbound requests to Comoros IP ranges","denied-remote-addresses":["102.223.120.0/22","164.160.136.0/22","197.255.224.0/20"]}
+{"description":"Block Comoros IPs (MaxMind GeoLite2)","name":"Blocks requests to Comoros IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["102.223.120.0/22","164.160.136.0/22","197.255.224.0/20"]}

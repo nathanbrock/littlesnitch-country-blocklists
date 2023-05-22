@@ -1,1 +1,1 @@
-{"description":"Block \"Norfolk Island\" IPs","name":"Blocks outbound requests to \"Norfolk Island\" IP ranges","denied-remote-addresses":["103.43.204.0/23","203.12.249.0/24","203.17.240.0/22","203.142.221.0/24"]}
+{"description":"Block \"Norfolk Island\" IPs (MaxMind GeoLite2)","name":"Blocks requests to \"Norfolk Island\" IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["103.43.204.0/23","203.12.249.0/24","203.17.240.0/22","203.142.221.0/24"]}

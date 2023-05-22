@@ -1,1 +1,1 @@
-{"description":"Block Guinea-Bissau IPs","name":"Blocks outbound requests to Guinea-Bissau IP ranges","denied-remote-addresses":["102.219.174.0/23","154.73.60.0/22","197.214.80.0/20"]}
+{"description":"Block Guinea-Bissau IPs (MaxMind GeoLite2)","name":"Blocks requests to Guinea-Bissau IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["102.219.174.0/23","154.73.60.0/22","197.214.80.0/20"]}

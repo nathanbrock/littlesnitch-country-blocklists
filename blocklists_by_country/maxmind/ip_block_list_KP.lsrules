@@ -1,1 +1,1 @@
-{"description":"Block \"North Korea\" IPs","name":"Blocks outbound requests to \"North Korea\" IP ranges","denied-remote-addresses":["175.45.176.0/22"]}
+{"description":"Block \"North Korea\" IPs (MaxMind GeoLite2)","name":"Blocks requests to \"North Korea\" IPs (source: MaxMind GeoLite2)","denied-remote-addresses":["175.45.176.0/22"]}
