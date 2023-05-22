@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/csv"
 	"encoding/json"
 	"flag"
@@ -9,6 +10,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strings"
 )
 
 type BlockList struct {
@@ -21,9 +23,28 @@ type Filter struct {
 	CountryID string
 }
 
+func extractIPS(source string, file io.Reader, filter Filter) ([]net.IPNet, error) {
+	switch source {
+	case "maxmind":
+		r := csv.NewReader(file)
+
+		return extractIPsFromCSV(r, filter, CSVStructure{
+			IPCol:        0,
+			CountryIDCol: 2,
+		})
+	case "ip2location_cidr":
+		s := bufio.NewScanner(file)
+		return extractIPsFromList(s)
+	}
+
+	return nil, fmt.Errorf("ip source not supported (maxmind, ip2location")
+}
+
 func main() {
 	var inputFile string
 	flag.StringVar(&inputFile, "input_csv", "", "path to maxmind csv file")
+	var source string
+	flag.StringVar(&source, "input_source", "maxmind", "source of the ip addresses")
 	var dir string
 	flag.StringVar(&dir, "output_dir", "./", "output directory for resulting files")
 	var filename string
@@ -33,7 +54,7 @@ func main() {
 	var desc string
 	flag.StringVar(&desc, "list_desc", "", "description used in blocklist")
 	var filterCountryID string
-	flag.StringVar(&filterCountryID, "countryid", "", "filter by maxmind country id")
+	flag.StringVar(&filterCountryID, "countryid", "", "filter by maxmind country id (supported by maxmind input source only")
 
 	flag.Parse()
 
@@ -42,11 +63,8 @@ func main() {
 		log.Fatal(err)
 	}
 	defer file.Close()
-	r := csv.NewReader(file)
 
-	addrs, err := extractIPsFromCSV(r, Filter{
-		CountryID: filterCountryID,
-	})
+	addrs, err := extractIPS(source, file, Filter{CountryID: filterCountryID})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,7 +133,12 @@ func writeJSONToFile(j interface{}, path string) error {
 }
 
 // extractIPsFromCSV expects a GeoLite2 CSV file which it'll extract IP addresses from
-func extractIPsFromCSV(r *csv.Reader, filter Filter) ([]net.IPNet, error) {
+type CSVStructure struct {
+	IPCol        int
+	CountryIDCol int
+}
+
+func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]net.IPNet, error) {
 	var ipNetworks []net.IPNet
 
 	firstRow := true
@@ -135,17 +158,36 @@ func extractIPsFromCSV(r *csv.Reader, filter Filter) ([]net.IPNet, error) {
 		}
 
 		if filter.CountryID != "" {
-			if record[2] != filter.CountryID {
+			if record[structure.CountryIDCol] != filter.CountryID {
 				continue
 			}
 		}
 
-		ipStr := record[0]
+		ipStr := record[structure.IPCol]
 		_, ipv4Net, err := net.ParseCIDR(ipStr)
 		if err != nil {
 			return nil, err
 		}
 
+		ipNetworks = append(ipNetworks, *ipv4Net)
+	}
+
+	return ipNetworks, nil
+}
+
+func extractIPsFromList(s *bufio.Scanner) ([]net.IPNet, error) {
+	var ipNetworks []net.IPNet
+
+	for s.Scan() {
+		t := s.Text()
+		if strings.Trim(t, " ")[0] == '#' {
+			continue
+		}
+
+		_, ipv4Net, err := net.ParseCIDR(s.Text())
+		if err != nil {
+			return nil, err
+		}
 		ipNetworks = append(ipNetworks, *ipv4Net)
 	}
 
