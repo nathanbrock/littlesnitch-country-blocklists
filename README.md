@@ -13,5 +13,5 @@ A collection of [LittleSnitch](https://www.obdev.at/products/littlesnitch/index.
 
 1. Install [GoLang](https://go.dev/dl/).
 2. Download a country list in CIDR format from https://www.ip2location.com/free/visitor-blocker.
-3. Run the following command when converting GeoLite2 CSV files. The country name and code is used in the output filename and LS Rules description.
+3. Run the following command when converting IP2Location single country CIDR list. The country name and code is used in the output filename and LS Rules description.
 `./ip2location_cidr_list_convert.sh ~/path/to/firewall.txt "{COUNTRY_NAME}" "{COUNTRY_CODE}"`
