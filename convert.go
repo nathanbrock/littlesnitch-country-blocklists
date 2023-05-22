@@ -23,7 +23,7 @@ type Filter struct {
 	CountryID string
 }
 
-func extractIPS(source string, file io.Reader, filter Filter) ([]net.IPNet, error) {
+func extractIPs(source string, file io.Reader, filter Filter) ([]net.IPNet, error) {
 	switch source {
 	case "maxmind":
 		r := csv.NewReader(file)
@@ -37,7 +37,7 @@ func extractIPS(source string, file io.Reader, filter Filter) ([]net.IPNet, erro
 		return extractIPsFromList(s)
 	}
 
-	return nil, fmt.Errorf("ip source not supported (maxmind, ip2location")
+	return nil, fmt.Errorf("source not supported (options: maxmind, ip2location")
 }
 
 func main() {
@@ -64,7 +64,7 @@ func main() {
 	}
 	defer file.Close()
 
-	addrs, err := extractIPS(source, file, Filter{CountryID: filterCountryID})
+	addrs, err := extractIPs(source, file, Filter{CountryID: filterCountryID})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -132,12 +132,12 @@ func writeJSONToFile(j interface{}, path string) error {
 	return os.WriteFile(path, contents, 0644)
 }
 
-// extractIPsFromCSV expects a GeoLite2 CSV file which it'll extract IP addresses from
 type CSVStructure struct {
 	IPCol        int
 	CountryIDCol int
 }
 
+// extractIPsFromCSV reads in a CSV file and extracts IPs for a given structure.
 func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]net.IPNet, error) {
 	var ipNetworks []net.IPNet
 
@@ -175,6 +175,7 @@ func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]
 	return ipNetworks, nil
 }
 
+// extractIPsFromList extracts and returns IPs from a single text list.
 func extractIPsFromList(s *bufio.Scanner) ([]net.IPNet, error) {
 	var ipNetworks []net.IPNet
 
@@ -184,7 +185,7 @@ func extractIPsFromList(s *bufio.Scanner) ([]net.IPNet, error) {
 			continue
 		}
 
-		_, ipv4Net, err := net.ParseCIDR(s.Text())
+		_, ipv4Net, err := net.ParseCIDR(t)
 		if err != nil {
 			return nil, err
 		}
