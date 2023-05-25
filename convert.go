@@ -4,16 +4,12 @@ import (
 	"bufio"
 	"encoding/csv"
 	"encoding/json"
-	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"log"
-	"math/big"
 	"net"
-	"net/netip"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -27,7 +23,7 @@ type Filter struct {
 	CountryID string
 }
 
-func extractIPs(source string, file io.Reader, filter Filter) ([]net.IPNet, error) {
+func extractIPs(source string, file io.Reader, filter Filter) ([]string, error) {
 	switch source {
 	case "maxmind":
 		r := csv.NewReader(file)
@@ -107,7 +103,7 @@ func writeListsToFile(dir, filename string, lists []BlockList) error {
 }
 
 // buildBlockList creates one or more LittleSnitch block list structs for the given slice of IP addresses
-func buildBlockList(name, desc string, ips []net.IPNet) []BlockList {
+func buildBlockList(name, desc string, ips []string) []BlockList {
 	sets := make([]BlockList, 0)
 
 	maxSize := 200000
@@ -120,15 +116,10 @@ func buildBlockList(name, desc string, ips []net.IPNet) []BlockList {
 
 		batch := ips[i:j]
 
-		addrs := make([]string, len(batch))
-		for i, r := range batch {
-			addrs[i] = r.String()
-		}
-
 		sets = append(sets, BlockList{
 			Description:         name,
 			Name:                desc,
-			DeniedRemoteAddress: addrs,
+			DeniedRemoteAddress: batch,
 		})
 	}
 
@@ -153,71 +144,9 @@ type CSVStructure struct {
 	CountryIDCol int
 }
 
-// Thank you https://go.dev/play/p/Ynx1liLAGs2
-func IpRangeToCIDR(cidr []string, start, end string) ([]string, error) {
-	ips, err := netip.ParseAddr(start)
-	if err != nil {
-		return nil, err
-	}
-	ipe, err := netip.ParseAddr(end)
-	if err != nil {
-		return nil, err
-	}
-
-	isV4 := ips.Is4()
-	if isV4 != ipe.Is4() {
-		return nil, errors.New("start and end types are different")
-	}
-	if ips.Compare(ipe) > 0 {
-		return nil, errors.New("start > end")
-	}
-
-	var (
-		ipsInt = new(big.Int).SetBytes(ips.AsSlice())
-		ipeInt = new(big.Int).SetBytes(ipe.AsSlice())
-		tmpInt = new(big.Int)
-		mask   = new(big.Int)
-		one    = big.NewInt(1)
-		buf    []byte
-
-		bits, maxBit uint
-	)
-	if isV4 {
-		maxBit = 32
-		buf = make([]byte, 4)
-	} else {
-		maxBit = 128
-		buf = make([]byte, 16)
-	}
-
-	for {
-		bits = 1
-		mask.SetUint64(1)
-		for bits < maxBit {
-			if (tmpInt.Or(ipsInt, mask).Cmp(ipeInt) > 0) ||
-				(tmpInt.Lsh(tmpInt.Rsh(ipsInt, bits), bits).Cmp(ipsInt) != 0) {
-				bits--
-				mask.Rsh(mask, 1)
-				break
-			}
-			bits++
-			mask.Add(mask.Lsh(mask, 1), one)
-		}
-
-		addr, _ := netip.AddrFromSlice(ipsInt.FillBytes(buf))
-		cidr = append(cidr, addr.String()+"/"+strconv.FormatUint(uint64(maxBit-bits), 10))
-
-		if tmpInt.Or(ipsInt, mask); tmpInt.Cmp(ipeInt) >= 0 {
-			break
-		}
-		ipsInt.Add(tmpInt, one)
-	}
-	return cidr, nil
-}
-
 // extractIPsFromCSV reads in a CSV file and extracts IPs for a given structure.
-func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]net.IPNet, error) {
-	var ipNetworks []net.IPNet
+func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]string, error) {
+	var ipNetworks []string
 
 	firstRow := true
 	for {
@@ -240,25 +169,15 @@ func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]
 		}
 
 		if structure.IPRange == true {
+			start := net.ParseIP(record[structure.IPStartCol])
+			end := net.ParseIP(record[structure.IPEndCol])
 
-			start := record[structure.IPStartCol]
-			end := record[structure.IPEndCol]
-
-			if net.ParseIP(start).To4() == nil {
+			if start.To4() == nil || end.To4() == nil {
 				continue
 			}
 
-			cidr, err := IpRangeToCIDR(nil, start, end)
-			if err != nil {
-				panic(err)
-			}
-
-			_, ipv4Net, err := net.ParseCIDR(cidr[0])
-			if err != nil {
-				return nil, err
-			}
-
-			ipNetworks = append(ipNetworks, *ipv4Net)
+			r := fmt.Sprintf("%s-%s", start.String(), end.String())
+			ipNetworks = append(ipNetworks, r)
 			continue
 		}
 
@@ -268,15 +187,15 @@ func extractIPsFromCSV(r *csv.Reader, filter Filter, structure CSVStructure) ([]
 			return nil, err
 		}
 
-		ipNetworks = append(ipNetworks, *ipv4Net)
+		ipNetworks = append(ipNetworks, ipv4Net.String())
 	}
 
 	return ipNetworks, nil
 }
 
 // extractIPsFromList extracts and returns IPs from a single text list.
-func extractIPsFromList(s *bufio.Scanner) ([]net.IPNet, error) {
-	var ipNetworks []net.IPNet
+func extractIPsFromList(s *bufio.Scanner) ([]string, error) {
+	var ipNetworks []string
 
 	for s.Scan() {
 		t := s.Text()
@@ -288,7 +207,7 @@ func extractIPsFromList(s *bufio.Scanner) ([]net.IPNet, error) {
 		if err != nil {
 			return nil, err
 		}
-		ipNetworks = append(ipNetworks, *ipv4Net)
+		ipNetworks = append(ipNetworks, ipv4Net.String())
 	}
 
 	return ipNetworks, nil
